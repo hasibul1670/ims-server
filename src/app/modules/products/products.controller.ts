@@ -1,24 +1,36 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
-@ApiTags('products')
-@Controller('products')
+@ApiTags('Product')
+  @Controller('Product')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Post()
-  @ApiOperation({ summary: 'Create a new product' })
+  @Post('CreateProduct')
+  @ApiOperation({ summary: "Create a new product" })
   @ApiResponse({ status: 201, description: 'Product created successfully' })
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
 
-  @Get()
+  @Get('GetAllProducts')
   @ApiOperation({ summary: 'Get all products' })
-  @ApiResponse({ status: 200, description: 'List of products retrieved successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of products retrieved successfully',
+  })
   findAll() {
     return this.productsService.findAll();
   }

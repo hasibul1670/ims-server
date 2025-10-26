@@ -1,4 +1,14 @@
-import { defineConfig, env } from "prisma/config";
+import { config } from "dotenv";
+import { defineConfig } from "prisma/config";
+
+// Load environment variables from .env file
+config({ path: ".env" });
+
+const databaseUrl = process.env.DATABASE_URL;
+
+if (!databaseUrl) {
+  throw new Error("DATABASE_URL is not set in the environment variables");
+}
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
@@ -7,6 +17,6 @@ export default defineConfig({
   },
   engine: "classic",
   datasource: {
-    url: env("DATABASE_URL"),
+    url: databaseUrl,
   },
 });

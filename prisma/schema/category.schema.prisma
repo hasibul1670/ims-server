@@ -1,2 +1,0 @@
-// This file is kept for reference but models are defined in main schema.prisma
-// Category model is now in schema.prisma to avoid duplication
