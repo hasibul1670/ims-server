@@ -1,4 +1,0 @@
-model Product {
-    id          Int    @id @default(autoincrement())
-    productName String @unique
-}

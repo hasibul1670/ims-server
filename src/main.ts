@@ -1,40 +1,23 @@
-import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app.module';
-import * as dotenv from 'dotenv';
+// src/main.ts
 
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  // Load environment variables at the very beginning
-  dotenv.config();
-  
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true, // Strips away properties that are not in the DTO
-      transform: true, // Automatically transforms payloads to be objects typed according to their DTO classes
-    }),
-  );
-  app.enableCors({
-    origin: true,
-    credentials: true,
-  });
 
-  // --- 3. Swagger Configuration ---
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+
   const config = new DocumentBuilder()
-    .setTitle('IMS Server API')
-    .setDescription('Inventory Management System API documentation')
-    .setVersion('1.0')
+    .setTitle('IMS')
+    .setDescription('The IMS API')
+    .setVersion('0.1')
     .build();
-
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  // --- 4. Start the Server ---
-  const port = process.env.PORT ?? 3000;
-  await app.listen(port);
-  console.log(`Application is running on: http://localhost:${port}`);
+  await app.listen(5001);
 }
-
 bootstrap();

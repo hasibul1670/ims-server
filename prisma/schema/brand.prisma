@@ -1,0 +1,5 @@
+model brand {
+    id String @id @default(uuid())
+    brandName String @unique
+
+}

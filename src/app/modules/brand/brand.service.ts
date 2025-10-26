@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class BrandService {
+  constructor( private prisma: PrismaService) {}
   create(createBrandDto: CreateBrandDto) {
-    return 'This action adds a new brand';
+    return this.prisma.brand.create({
+      data: createBrandDto  
+    }) 
   }
 
   findAll() {

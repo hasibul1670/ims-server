@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../../prisma/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   create(createProductDto: CreateProductDto) {
     return this.prisma.product.create({
@@ -18,10 +18,15 @@ export class ProductsService {
   }
 
   async findOne(id: string) {
-    const product = await this.prisma.product.findUnique({
-      where: { id },
-    });
+    const productId = parseInt(id, 10);
+    if (isNaN(productId)) {
+      throw new NotFoundException(`Invalid product ID: ${id}`);
+    }
 
+    const product = await this.prisma.product.findUnique({
+      where: { id: productId },
+    });
+    
     if (!product) {
       throw new NotFoundException(`Product with ID ${id} not found`);
     }
@@ -30,9 +35,14 @@ export class ProductsService {
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
+    const productId = parseInt(id, 10);
+    if (isNaN(productId)) {
+      throw new NotFoundException(`Invalid product ID: ${id}`);
+    }
+
     try {
       return await this.prisma.product.update({
-        where: { id },
+        where: { id: productId },
         data: updateProductDto,
       });
     } catch (error) {
@@ -44,9 +54,14 @@ export class ProductsService {
   }
 
   async remove(id: string) {
+    const productId = parseInt(id, 10);
+    if (isNaN(productId)) {
+      throw new NotFoundException(`Invalid product ID: ${id}`);
+    }
+
     try {
       return await this.prisma.product.delete({
-        where: { id },
+        where: { id: productId },
       });
     } catch (error) {
       if (error.code === 'P2025') {

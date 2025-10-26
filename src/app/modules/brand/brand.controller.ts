@@ -3,11 +3,11 @@ import { BrandService } from './brand.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 
-@Controller('brand')
+@Controller('Brand')
 export class BrandController {
   constructor(private readonly brandService: BrandService) {}
 
-  @Post()
+  @Post('CreateBrand')
   create(@Body() createBrandDto: CreateBrandDto) {
     return this.brandService.create(createBrandDto);
   }

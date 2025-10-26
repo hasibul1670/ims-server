@@ -19,8 +19,9 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "studio": "npx dotenv-cli -e .env -- npx prisma studio",
-    "g": "npx dotenv-cli -e .env -- npx prisma generate",
-    "m": "npx dotenv-cli -e .env -- npx prisma migrate dev --name init"
+    "build:schema": "node scripts/build-schema.js",
+    "g": "npm run build:schema && npx dotenv-cli -e .env -- npx prisma generate",
+    "m": "npm run build:schema && npx dotenv-cli -e .env -- npx prisma migrate dev --name init"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
