@@ -1,0 +1,2 @@
+// This file is kept for reference but models are defined in main schema.prisma
+// User model is now in schema.prisma to avoid duplication
